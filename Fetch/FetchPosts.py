@@ -19,7 +19,7 @@ periods = {
     'year': 'year',
 }
 
-def buildCorpus(samples, subreddit, **kwargs):
+def buildPostList(samples, subreddit, **kwargs):
     posts = getPostsFrom(subreddit, **kwargs)
     while posts.getPostCount() < samples:
         if 'params' in kwargs:
@@ -35,7 +35,8 @@ def buildCorpus(samples, subreddit, **kwargs):
 
 
 def getPostsFrom(subreddit, params=None, sort='new', filterParams=None):
-    finalParams = (params or {}).update({'raw_json': '1'})
+    finalParams = (params or {})
+    finalParams.update({'raw_json': '1'})
     res = rqs.get(
         'http://www.reddit.com/r/{subreddit}/{sort}.json'.format(subreddit=subreddit, sort=sort),
         headers={

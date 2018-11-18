@@ -20,11 +20,12 @@ class RedditPostListWrapper:
     def getBefore(self):
         return self.data.get('before')
 
-    def filter(self, **kwargs):
+    def filter(self, useTitle=True, **kwargs):
         def predicate(post):
             pipeline = buildRejectionPipeline(**kwargs)
+            txt = post.getTitle() if useTitle else post.getText()
             for rejector in pipeline:
-                if rejector(post.getText()):
+                if rejector(txt):
                     return False
             return True
         return list(filter(predicate, self.posts))
@@ -34,6 +35,12 @@ class RedditPostListWrapper:
 
     def getNormalizedPostTexts(self, **kwargs):
         return map(lambda post: post.getNormalizedText(**kwargs), self.posts)
+
+    def getPostTitles(self):
+        return map(lambda post: post.getTitle(), self.posts)
+
+    def getNormalizedPostTitles(self):
+        return map(lambda post: post.getNormalizedTitle(), self.posts)
 
     def getPostById(self, name):
         for post in self.posts:
@@ -64,13 +71,22 @@ class RedditPostWrapper:
         return self.data.get('name', '')
 
     def getText(self):
+        import pdb
+        pdb.set_trace()
         return self.data.get('selftext', '')
 
-    def getNormalizedText(self, **kwargs):
-        txt = self.getText()
+    def _normalize(self, txt, **kwargs):
         for textFilter in buildFilterPipeline(**kwargs):
             txt = textFilter(txt)
         return txt
 
+    def getNormalizedText(self, **kwargs):
+        txt = self.getText()
+        return self._normalize(txt, **kwargs)
+
     def getTitle(self):
         return self.data.get('title', '')
+
+    def getNormalizedTitle(self, **kwargs):
+        title = self.getTitle()
+        return self._normalize(title, **kwargs)
