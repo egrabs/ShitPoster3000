@@ -2,26 +2,37 @@ import requests as rqs
 
 from Fetch.RedditPostWrapper import RedditPostListWrapper
 
-sorters = {
-    'new': 'new',
-    'hot': 'hot',
-    'controversial': 'controversial',
-    'top': 'top',
-    'rising': 'rising'
-}
+_validSorters = [
+    'new',
+    'hot',
+    'controversial',
+    'top',
+    'rising'
+]
 
-periods = {
-    'all': 'all',
-    'day': 'day',
-    'hour': 'hour',
-    'week': 'week',
-    'month': 'month',
-    'year': 'year',
-}
+_validPeriods = [
+    'all',
+    'day',
+    'hour',
+    'week',
+    'month',
+    'year',
+]
 
-def buildPostList(samples, subreddit, **kwargs):
+def _validateParams(kwargs):
+    params = kwargs.get('params')
+    if params:
+        period = params.get('t')
+        if period and period not in _validPeriods:
+            raise ValueError('{} is not a valid period!'.format(period))
+    sort = kwargs.get('sort')
+    if sort and sort not in _validSorters:
+        raise ValueError('{} is not a valid sort!'.format(kwargs['sort']))
+
+def buildPostList(subreddit, numSamples, **kwargs):
+    _validateParams(kwargs)
     posts = getPostsFrom(subreddit, **kwargs)
-    while posts.getPostCount() < samples:
+    while posts.getPostCount() < numSamples:
         if 'params' in kwargs:
             kwargs['params']['after'] = posts.getAfter()
             kwargs['params']['count'] = posts.getPostCount()

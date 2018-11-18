@@ -2,12 +2,12 @@ import sys
 
 import markovify as mkv
 
-from Fetch.FetchPosts import sorters, periods, buildPostList
+from Fetch.FetchPosts import buildPostList
 
-def train(subreddit, useTitles=True, sort=sorters['top'], params=None, samples=500, nodes=2):
+def train(subreddit, useTitles=True, sort='top', params=None, numSamples=500, nodes=2):
     postList = buildPostList(
-        samples,
         subreddit,
+        numSamples,
         params=params or {},
         sort=sort
     )
@@ -20,7 +20,7 @@ def train(subreddit, useTitles=True, sort=sorters['top'], params=None, samples=5
 
 
 if __name__ == '__main__':
-    model = train('news', sort=sorters['controversial'], params={'t': periods['all']})
+    model = train('news', sort='controversial', params={'t': 'all'})
     if len(sys.argv) > 1:
         sentences = int(sys.argv[1])
     else:
