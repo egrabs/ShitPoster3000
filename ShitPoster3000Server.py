@@ -16,5 +16,5 @@ def mimickSubreddit():
     if sort != 'top' and sort != 'controversial':
         model = train(subreddit, useTitles=useTitles, sort=sort, numSamples=samples)
     else:
-        model = train(subreddit, useTitles=useTitles, sort=sort, params={'t': period}, numSamples=samples)
+        model = train(subreddit, useTitles=useTitles, sort=sort, params={'t': period}, numamples=samples)
     return jsonify([model.make_sentence(tries=100) for _ in range(sentenceCount)])

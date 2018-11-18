@@ -1,5 +1,7 @@
 # ShitPoster3000
 
+[Shitpost](https://www.urbandictionary.com/define.php?term=shitpost)
+
 ## Given a subreddit, train up a markov chain model on posts from that subreddit and start imitating posts
 
 ### runs on python3
