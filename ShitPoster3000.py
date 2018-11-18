@@ -1,3 +1,4 @@
+#!ShitPoster3000/bin/python3
 import sys
 
 import markovify as mkv

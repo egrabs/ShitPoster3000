@@ -2,6 +2,13 @@ from flask import Flask, request, jsonify
 
 from .ShitPoster3000 import train
 
+__author__ = "Elyes Graba"
+__license__ = "MIT"
+__version__ = "1.0.0"
+__maintainer__ = "Elyes Graba"
+__email__ = "elyesgraba@gatech.edu"
+__status__ = "development"
+
 app = Flask(__name__)
 
 @app.route('/', methods=['GET'])
