@@ -15,7 +15,7 @@
 5. as server: `./startServer.sh`
 
 ### If running as a server: URL Params (all optional)
-* `param` - description - `default`
+#### `param` - description - `default`
 * `subreddit` - which subreddit to pull posts from - `worldnews`
 * `sort` - sort by new, top, controversial, etc - `controversial`
 * `period` - day, week, month, year, all - `all`
